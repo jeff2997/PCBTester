@@ -124,143 +124,79 @@ void setAllPinsInputPullup() {
 
 }
 
-int test(int testPin, int selPin) {
+
+
+int test(int testPin, int selPin, int testValue, String pinName) {
+    String value = "";
+    if (digitalRead(selPin) == 1) {
+      value = "HIGH";
+    }
+    else {
+      value = "LOW";
+    }
+    
     if (testPin != selPin) {
-        if (digitalRead(selPin) == 1) {
-            return 1;
+        if (testValue == 1) {
+            Serial.println("Check " + String(pinName) + ": " + value + "; Expected a HIGH value; Evaluates to " + (1 == digitalRead(selPin) ? "TRUE" : "FALSE") + "; Value == " + String(digitalRead(selPin)));
+            return 1 == digitalRead(selPin);
         }
         else {
-            return 0;
+            Serial.println("Check " + String(pinName) + ": " + value + "; Expected a LOW value; Evaluates to " + (0 == digitalRead(selPin) ? "TRUE" : "FALSE") + "; Value == " + String(digitalRead(selPin)));
+            return 0 == digitalRead(selPin);
         }
     }
     else {
+        Serial.println("Check " + String(pinName) + ": " + value + "; Expected no value" + "; Value == " + String(digitalRead(selPin)));
         return -1;
     }
 }
 
-String testBoard3(int testPin) {
+String testBoard3(int testPin, int testValue[], int pinsToTest[]) {
   setAllPinsInputPullup();
   pinMode(testPin, OUTPUT);
   digitalWrite(testPin, LOW);
   // MAIN TESTS
   
-  int check1 = (test(testPin, tLOut) == 1);
-  int check2 = (test(testPin, P3F) == 0);
-  int check3 = (test(testPin, P3S) == 1);
-  int check4 = (test(testPin, P3W) == 1);
-  int check5 = (test(testPin, tLin) == 1);
-  int check6 = (test(testPin, VPlus) == 0);
-  int check7 = (test(testPin, Gnd) == 1);
-  int check8 = (test(testPin, tROut) == 1);
-  int check9 = (test(testPin, tRin) == 1);
-  int check10 = (test(testPin, P4S) == 1);
-  int check11 = (test(testPin, P4W) == 1);
-  int check12 = (test(testPin, P4F) == 0);
-  int check13 = (test(testPin, Lin) == 1);
-  int check14 = (test(testPin, P1S) == 1);
-  int check15 = (test(testPin, P1W) == 1);
-  int check16 = (test(testPin, P1F) == 1);
-  int check17 = (test(testPin, VPlus) == 0);
-  int check18 = (test(testPin, bLOut) == 0);
-  int check19 = (test(testPin, bROut) == 0);
-  int check20 = (test(testPin, VMinus) == 1);
-  int check21 = (test(testPin, P2F) == 1);
-  int check22 = (test(testPin, P2W) == 1);
-  int check23 = (test(testPin, P2S) == 1);
-  int check24 = (test(testPin, Rin) == 1);
-  int check25 = (test(testPin, O1) == 0);
-  int check26 = (test(testPin, O2) == 1);
-  int check27 = (test(testPin, O3) == 1);
-  int check28 = (test(testPin, O4) == 0);
-  int check29 = (test(testPin, O5) == 1);
-  int check30 = (test(testPin, O6) == 1);
-  int check31 = (test(testPin, O7) == 0);
-  int check32 = (test(testPin, O8) == 0);
-  int check33 = (test(testPin, O9) == 1);
-  int check34 = (test(testPin, O10) == 1);
-  int check35 = (test(testPin, O11) == 0);
-  int check36 = (test(testPin, O12) == 1);
-  int check37 = (test(testPin, O13) == 1);
-  int check38 = (test(testPin, O14) == 0);
+  int check1 = pinsToTest[0] == 1 ? test(testPin, tLOut, testValue[0], "tLOut") : -1;
+  int check2 = pinsToTest[1] == 1 ? test(testPin, P3F, testValue[1], "P3F") : -1;
+  int check3 = pinsToTest[2] == 1 ? test(testPin, P3S, testValue[2], "P3S") : -1;
+  int check4 = pinsToTest[3] == 1 ? test(testPin, P3W, testValue[3], "P3W") : -1;
+  int check5 = pinsToTest[4] == 1 ? test(testPin, tLin, testValue[4], "tLin") : -1;
+  int check6 = pinsToTest[5] == 1 ? test(testPin, VPlus, testValue[5], "VPlus") : -1;
+  int check7 = pinsToTest[6] == 1 ? test(testPin, Gnd, testValue[6], "Gnd") : -1;
+  int check8 = pinsToTest[7] == 1 ? test(testPin, tROut, testValue[7], "tROut") : -1;
+  int check9 = pinsToTest[8] == 1 ? test(testPin, tRin, testValue[8], "tRin") : -1;
+  int check10 = pinsToTest[9] == 1 ? test(testPin, P4S, testValue[9], "P4S") : -1;
+  int check11 = pinsToTest[10] == 1 ? test(testPin, P4W, testValue[10], "P4W") : -1;
+  int check12 = pinsToTest[11] == 1 ? test(testPin, P4F, testValue[11], "P4F") : -1;
+  int check13 = pinsToTest[12] == 1 ? test(testPin, Lin, testValue[12], "Lin") : -1;
+  int check14 = pinsToTest[13] == 1 ? test(testPin, P1S, testValue[13], "P1S") : -1;
+  int check15 = pinsToTest[14] == 1 ? test(testPin, P1W, testValue[14], "P1W") : -1;
+  int check16 = pinsToTest[15] == 1 ? test(testPin, P1F, testValue[15], "P1F") : -1;
+  int check17 = pinsToTest[16] == 1 ? test(testPin, VPlus, testValue[16], "VPlus") : -1;
+  int check18 = pinsToTest[17] == 1 ? test(testPin, bLOut, testValue[17], "bLOut") : -1;
+  int check19 = pinsToTest[18] == 1 ? test(testPin, bROut, testValue[18], "bROut") : -1;
+  int check20 = pinsToTest[19] == 1 ? test(testPin, VMinus, testValue[19], "VMinus") : -1;
+  int check21 = pinsToTest[20] == 1 ? test(testPin, P2F, testValue[20], "P2F") : -1;
+  int check22 = pinsToTest[21] == 1 ? test(testPin, P2W, testValue[21], "P2W") : -1;
+  int check23 = pinsToTest[22] == 1 ? test(testPin, P2S, testValue[22], "P2S") : -1;
+  int check24 = pinsToTest[23] == 1 ? test(testPin, Rin, testValue[23], "Rin") : -1;
+  int check25 = pinsToTest[24] == 1 ? test(testPin, O1, testValue[24], "O1") : -1;
+  int check26 = pinsToTest[25] == 1 ? test(testPin, O2, testValue[25], "O2") : -1;
+  int check27 = pinsToTest[26] == 1 ? test(testPin, O3, testValue[26], "O3") : -1;
+  int check28 = pinsToTest[27] == 1 ? test(testPin, O4, testValue[27], "O4") : -1;
+  int check29 = pinsToTest[28] == 1 ? test(testPin, O5, testValue[28], "O5") : -1;
+  int check30 = pinsToTest[29] == 1 ? test(testPin, O6, testValue[29], "O6") : -1;
+  int check31 = pinsToTest[30] == 1 ? test(testPin, O7, testValue[30], "O7") : -1;
+  int check32 = pinsToTest[31] == 1 ? test(testPin, O8, testValue[31], "O8") : -1;
+  int check33 = pinsToTest[32] == 1 ? test(testPin, O9, testValue[32], "O9") : -1;
+  int check34 = pinsToTest[33] == 1 ? test(testPin, O10, testValue[33], "O10") : -1;
+  int check35 = pinsToTest[34] == 1 ? test(testPin, O11, testValue[34], "O11") : -1;
+  int check36 = pinsToTest[35] == 1 ? test(testPin, O12, testValue[35], "O12") : -1;
+  int check37 = pinsToTest[36] == 1 ? test(testPin, O13, testValue[36], "O13") : -1;
+  int check38 = pinsToTest[37] == 1 ? test(testPin, O14, testValue[37], "O14") : -1;
 
-  if(debugMode) {
-    Serial.print("Check 1: ");
-    Serial.println(check1);
-    Serial.print("Check 2: ");
-    Serial.println(check2);
-    Serial.print("Check 3: ");
-    Serial.println(check3);
-    Serial.print("Check 4: ");
-    Serial.println(check4);
-    Serial.print("Check 5: ");
-    Serial.println(check5);
-    Serial.print("Check 6: ");
-    Serial.println(check6);
-    Serial.print("Check 7: ");
-    Serial.println(check7);
-    Serial.print("Check 8: ");
-    Serial.println(check8);
-    Serial.print("Check 9: ");
-    Serial.println(check9);
-    Serial.print("Check 10: ");
-    Serial.println(check10);
-    Serial.print("Check 11: ");
-    Serial.println(check11);
-    Serial.print("Check 12: ");
-    Serial.println(check12);
-    Serial.print("Check 13: ");
-    Serial.println(check13);
-    Serial.print("Check 14: ");
-    Serial.println(check14);
-    Serial.print("Check 15: ");
-    Serial.println(check15);
-    Serial.print("Check 16: ");
-    Serial.println(check16);
-    Serial.print("Check 17: ");
-    Serial.println(check17);
-    Serial.print("Check 18: ");
-    Serial.println(check18);
-    Serial.print("Check 19: ");
-    Serial.println(check19);
-    Serial.print("Check 20: ");
-    Serial.println(check20);
-    Serial.print("Check 21: ");
-    Serial.println(check21);
-    Serial.print("Check 22: ");
-    Serial.println(check22);
-    Serial.print("Check 23: ");
-    Serial.println(check23);
-    Serial.print("Check 24: ");
-    Serial.println(check24);
-    Serial.print("Check 25: ");
-    Serial.println(check25);
-    Serial.print("Check 26: ");
-    Serial.println(check26);
-    Serial.print("Check 27: ");
-    Serial.println(check27);
-    Serial.print("Check 28: ");
-    Serial.println(check28);
-    Serial.print("Check 29: ");
-    Serial.println(check29);
-    Serial.print("Check 30: ");
-    Serial.println(check30);
-    Serial.print("Check 31: ");
-    Serial.println(check31);
-    Serial.print("Check 32: ");
-    Serial.println(check32);
-    Serial.print("Check 33: ");
-    Serial.println(check33);
-    Serial.print("Check 34: ");
-    Serial.println(check34);
-    Serial.print("Check 35: ");
-    Serial.println(check35);
-    Serial.print("Check 36: ");
-    Serial.println(check36);
-    Serial.print("Check 37: ");
-    Serial.println(check37);
-    Serial.print("Check 38: ");
-    Serial.println(check38);
-  }
+  
 
   if (check1 == 0 && !(check1 == -1)) {
     return "B3:E tLOut->V-";
@@ -381,19 +317,6 @@ String testBoard3(int testPin) {
   }
 }
 
-String board3VPlus() {
-  return "";
-}
-
-String board3TLout() {
-  return "";
-}
-
-String board3P3W() {
-  return "";
-}
-
-
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
@@ -407,7 +330,9 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  String temp = testBoard3(VMinus);
+  int pinsToTest[] = {1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+  int expectedValues[] =    {1,0,1,1,1,-1,1,0,1,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
+  String temp = testBoard3(VMinus, expectedValues, pinsToTest);
   Serial.println(temp);
-  delay(15000);
+  delay(5000);
 }
